@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import type { PlasmoCSConfig } from "plasmo"
-import { scanPageInputs, type ScannedField } from "./scanner"
+import { scanPageInputs, type ScannedField } from "./lib/scanner"
 
 // Plasmo Configuration: Run on all URLs
 // This ensures the script injects into every page you visit
