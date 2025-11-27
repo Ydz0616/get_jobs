@@ -1,16 +1,14 @@
 import { isInteractiveButton } from "./classifiers";
 
-/**
- * Recursive function to find all interactive elements inside Shadow DOMs
- */
 export function getAllInputs(root: Document | ShadowRoot | HTMLElement): HTMLElement[] {
   const inputs: HTMLElement[] = [];
   
-  // 1. Standard Form Elements
-  const currentInputs = root.querySelectorAll("input, select, textarea");
+  // 1. Standard Form Elements + Custom Roles
+  const selector = "input, select, textarea, [role='combobox'], [role='listbox'], [contenteditable='true']";
+  const currentInputs = root.querySelectorAll(selector);
   currentInputs.forEach(el => inputs.push(el as HTMLElement));
   
-  // 2. Interactive Buttons (Upload/Add)
+  // 2. Interactive Buttons (Explicitly scan for buttons)
   const buttons = root.querySelectorAll("button, a[role='button'], [role='button']");
   buttons.forEach(el => {
     const htmlEl = el as HTMLElement;
@@ -19,7 +17,7 @@ export function getAllInputs(root: Document | ShadowRoot | HTMLElement): HTMLEle
     }
   });
 
-  // 3. TreeWalker for Deep Traversal (Shadow DOMs)
+  // 3. TreeWalker for Shadow DOM
   let walkerRoot: Node;
   if (root instanceof Document) {
     walkerRoot = root.body || root;
@@ -37,12 +35,11 @@ export function getAllInputs(root: Document | ShadowRoot | HTMLElement): HTMLEle
     while (walker.nextNode()) {
       const el = walker.currentNode as HTMLElement;
       if (el?.shadowRoot) {
-        // Recursive call for nested Shadow Roots
         inputs.push(...getAllInputs(el.shadowRoot));
       }
     }
   } catch (error) {
-    console.warn("TreeWalker failed, using fallback:", error);
+    console.warn("TreeWalker failed:", error);
   }
 
   return inputs;

@@ -6,33 +6,27 @@ import type { ScannedField } from "./types";
 
 export type { ScannedField } from "./types";
 
-/**
- * Main Scanning Function
- * Orchestrates traversal, classification, label extraction, and value extraction.
- */
 export function scanPageInputs(): ScannedField[] {
   const elements = getAllInputs(document);
   const validFields: ScannedField[] = [];
 
   elements.forEach((element) => {
-    // 1. Basic Visibility Filter
+    // Visibility Check
     if (element.getAttribute("type") === "hidden") return;
     
     const style = window.getComputedStyle(element);
     if (style.display === "none" || style.visibility === "hidden") return;
-    
     if (parseFloat(style.opacity) === 0) return;
 
-    // 2. Size Check
+    // Size Check
     const rect = element.getBoundingClientRect();
     const tagName = element.tagName.toLowerCase();
     
-    // Buttons can be smaller, but standard inputs usually aren't tiny
+    // Buttons can be smaller than inputs
     const minSize = (tagName === "button" || tagName === "a" || element.getAttribute("role") === "button") ? 5 : 10;
     
     if (rect.width < minSize || rect.height < minSize) return;
 
-    // 3. Assemble Field Data
     const elementType = getElementType(element);
     const elementValue = getElementValue(element);
     const elementLabel = findLabel(element);
@@ -42,19 +36,9 @@ export function scanPageInputs(): ScannedField[] {
       type: elementType,
       label: elementLabel,
       value: elementValue,
-      element: element // Reference for live positioning
+      element: element 
     });
   });
-
-  // Debug Stats
-  if (validFields.length > 0) {
-    const stats = validFields.reduce((acc, field) => {
-      acc[field.type] = (acc[field.type] || 0) + 1;
-      return acc;
-    }, {} as Record<string, number>);
-    
-    console.log(`📊 Scanner Stats:`, stats);
-  }
 
   return validFields;
 }

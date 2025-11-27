@@ -1,6 +1,3 @@
-/**
- * Logic to extract current value from different elements
- */
 export function getElementValue(element: HTMLElement): string {
     const tagName = element.tagName.toLowerCase();
     
