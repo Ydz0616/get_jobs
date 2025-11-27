@@ -93,7 +93,8 @@ export function findLabel(input: HTMLElement): string {
         const firstOption = select.options[0];
         if (firstOption.value === "" && firstOption.text) {
           const text = firstOption.text.trim();
-          if (text.length > 0 && !/^(select|choose|pick|please|--).*/i.test(text)) {
+          if (text.length > 0 && text.length < 100 && 
+              !/^(select|choose|pick|please|--).*/i.test(text)) {
             return text;
           }
         }
