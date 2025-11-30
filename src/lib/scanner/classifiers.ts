@@ -79,7 +79,22 @@ export function isUploadButton(element: HTMLElement): boolean {
     }
     
     return tagName;
-  }
 
+  }
+/**
+ * Checks if an element is likely a 'Next' or 'Submit' button.
+ */
+  export function isNextButton(element: HTMLElement): boolean {
+    const text = element.innerText?.trim().toLowerCase() || ""
+    const id = element.id?.toLowerCase() || ""
+    
+    // Exclude 'Back' or 'Cancel' buttons
+    if (text.includes("back") || text.includes("cancel") || text.includes("previous")) return false
+    
+    // Keywords indicating forward progression
+    const keywords = ["next", "continue", "submit", "apply", "review", "proceed"]
+    
+    return keywords.some(k => text.includes(k) || id.includes(k))   
+  }
 
   
