@@ -1,5 +1,5 @@
 import type { PlasmoCSConfig } from "plasmo"
-import cssText from ""
+import cssText from "data-text:../ui/style.css" 
 import { AgentDashboard } from "../ui/dashboard"
 import { Visualizer } from "../ui/visualizer"
 import { AgentLoop } from "../core/loop" 
@@ -13,9 +13,7 @@ export const config: PlasmoCSConfig = {
 
 // Inject Tailwind styles into the Shadow DOM
 export const getStyle = () => {
-  const style = document.createElement("style")
-  style.textContent = cssText
-  return style
+  return cssText
 }
 
 /**

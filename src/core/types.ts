@@ -21,12 +21,24 @@ export interface UserProfile {
     // --- Basic Information (Hard Data) ---
     // Used for direct input filling
     basics: {
+      // English names
       firstName: string;
       lastName: string;
-      preferredName: string;
       fullName: string; // Some forms require full name in one field
+      
+      // Native alphabet names (for international students)
+      firstNameNative?: string;
+      lastNameNative?: string;
+      
+      // Preferred name
+      preferredName: string;
+      
+      // Contact
       email: string;
       phone: string;
+      phoneType?: string; // e.g., "Mobile"
+      
+      // Location
       location: {
         address: string;
         city: string;
@@ -34,10 +46,19 @@ export interface UserProfile {
         zipCode: string;
         country: string;
       };
+      
+      // URLs
       urls: {
         linkedin?: string;
         github?: string;
         portfolio?: string;
+      };
+      
+      // Resume PDF (stored as base64 or file reference)
+      resumePdf?: {
+        fileName: string;
+        fileData: string; // base64 encoded
+        uploadedAt: number; // timestamp
       };
     };
   

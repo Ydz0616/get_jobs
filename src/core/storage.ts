@@ -17,11 +17,14 @@ const DEFAULT_PROFILE: UserProfile = {
   basics: {
     firstName: "", 
     lastName: "", 
+    firstNameNative: "",
+    lastNameNative: "",
     preferredName: "", 
     fullName: "", 
     email: "", 
     phone: "",
-    location: { address: "", city: "", state: "", zipCode: "", country: "" },
+    phoneType: "Mobile",
+    location: { address: "", city: "", state: "", zipCode: "", country: "United States" },
     urls: {}
   },
   education: [],
